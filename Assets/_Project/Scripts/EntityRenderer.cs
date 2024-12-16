@@ -14,6 +14,7 @@ public class EntityRenderer : GameBehaviour
     [SerializeField] private CinemachineCamera VirtualCamera;
     [SerializeField] private float PlayerMoveSpeed;
     [SerializeField] private float PlayerMoveScale = 1.1f;
+    [SerializeField] private ParticleSystem PlayerMoveParticles;
 
     private TextMeshPro _playerRenderer;
     private Vector3 _targetPosition;
@@ -91,7 +92,17 @@ public class EntityRenderer : GameBehaviour
 
     protected override void GameUpdate()
     {
-        _targetPosition = TilemapRenderer.GetPosition(World.Player.Position);
+        var target = TilemapRenderer.GetPosition(World.Player.Position);
+
+        if (target == _targetPosition)
+        {
+            return;
+        }
+
+        PlayerMoveParticles.transform.position = _targetPosition;
+        PlayerMoveParticles.Play();
+
+        _targetPosition = target;
         _playerRenderer.transform.localScale = Vector3.one * PlayerMoveScale;
 
         foreach (var rend in _rendererObjects)
