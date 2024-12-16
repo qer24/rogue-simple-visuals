@@ -13,6 +13,8 @@ namespace RogueProject.Controllers
         private readonly World _world;
         private readonly Player _player;
 
+        public event Action OnInput;
+
         public PlayerController(World world, Player player)
         {
             _world = world;
@@ -25,7 +27,7 @@ namespace RogueProject.Controllers
         /// G - Generate a new world.
         /// Arrow keys - Move the player.
         /// </summary>
-        private void GetInput()
+        private bool GetInput()
         {
             _movementDirection = new Vector2Int(0, 0);
             // var key = Console.ReadKey(true).Key;
@@ -83,15 +85,13 @@ namespace RogueProject.Controllers
             {
                 _movementDirection = new Vector2Int(1, 0);
             }
-
             // Escape
-            if (Input.GetKeyDown(KeyCode.Escape))
+            else if (Input.GetKeyDown(KeyCode.Escape))
             {
                 Application.Quit();
             }
-
             // R
-            if (Input.GetKeyDown(KeyCode.R))
+            else if (Input.GetKeyDown(KeyCode.R))
             {
                 // reveal map
                 foreach (var cell in _world.WorldGrid)
@@ -102,24 +102,34 @@ namespace RogueProject.Controllers
                     _world.WorldGrid[x, y].Revealed = true;
                 }
             }
-
             // G
-            if (Input.GetKeyDown(KeyCode.G))
+            else if (Input.GetKeyDown(KeyCode.G))
             {
                 _world.GenerateWorld(true);
             }
-
             // K
-            if (Input.GetKeyDown(KeyCode.K))
+            else if (Input.GetKeyDown(KeyCode.K))
             {
                 _player.ChangeHealth(-999);
             }
+            else
+            {
+                // Don't do anything if no input
+                return false;
+            }
+
+            return true;
         }
 
         public override void Update()
         {
-            GetInput();
-            Move(_movementDirection);
+            var input = GetInput();
+
+            if (input)
+            {
+                Move(_movementDirection);
+                OnInput?.Invoke();
+            }
         }
 
         public void Move(Vector2Int direction)

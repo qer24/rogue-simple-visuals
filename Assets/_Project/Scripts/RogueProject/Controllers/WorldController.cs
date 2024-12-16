@@ -6,15 +6,15 @@ namespace RogueProject.Controllers
 {
     public class WorldController : Controller
     {
-        private readonly World _world;
-        private readonly HashSet<Vector2Int> _visibleCells = new();
+        public readonly World World;
+        public readonly HashSet<Vector2Int> VisibleCells = new();
 
         public bool PlayerDead;
 
         public WorldController(World world)
         {
-            _world = world;
-            _world.GenerateWorld(false);
+            World = world;
+            World.GenerateWorld(false);
         }
 
         public override void Update()
@@ -30,19 +30,19 @@ namespace RogueProject.Controllers
         /// </summary>
         private void PlayerLineOfSight()
         {
-            var player = _world.Entities[0];
+            var player = World.Entities[0];
 
             // hide all visible cells
-            foreach (var cell in _visibleCells)
+            foreach (var cell in VisibleCells)
             {
                 var x = cell.x;
                 var y = cell.y;
 
-                _world.WorldGrid[x, y].Visible = false;
+                World.WorldGrid[x, y].Visible = false;
             }
 
             // add cells within player's vision to visible cells
-            _visibleCells.Clear();
+            VisibleCells.Clear();
 
             const int playerVision = Constants.FLOOR_REVEAL_DISTANCE;
 
@@ -52,14 +52,14 @@ namespace RogueProject.Controllers
                 {
                     if (x < 0 || x >= Constants.WORLD_SIZE.x || y < 0 || y >= Constants.WORLD_SIZE.y) continue;
 
-                    var cell = _world.WorldGrid[x, y];
+                    var cell = World.WorldGrid[x, y];
                     if (cell.TileType != TileType.Floor) continue;
 
                     if (!FastDistanceCheck(player.Position, cell.Position, playerVision)) continue;
-                    if (_world.Linecast(player.Position, cell.Position)) continue;
+                    if (World.Linecast(player.Position, cell.Position)) continue;
 
-                    _visibleCells.Add(cell.Position);
-                    _world.WorldGrid[x, y].Visible = true;
+                    VisibleCells.Add(cell.Position);
+                    World.WorldGrid[x, y].Visible = true;
                 }
             }
         }
@@ -81,18 +81,18 @@ namespace RogueProject.Controllers
         private void PlayerReveal()
         {
             // reveal surrounding tiles
-            foreach (var cell in _world.GetPlayerSurroundedTiles())
+            foreach (var cell in World.GetPlayerSurroundedTiles())
             {
-                var worldCell = _world.WorldGrid[cell.x, cell.y];
+                var worldCell = World.WorldGrid[cell.x, cell.y];
                 if (worldCell.TileType == TileType.Corridor) // reveal corridors
                 {
-                    _world.WorldGrid[cell.x, cell.y].Revealed = true;
+                    World.WorldGrid[cell.x, cell.y].Revealed = true;
                 }
                 else if (worldCell.TileType == TileType.Door) // reveal rooms
                 {
-                    if (_world.TryGetRoom(worldCell, out var room))
+                    if (World.TryGetRoom(worldCell, out var room))
                     {
-                        _world.RevealRoom(room);
+                        World.RevealRoom(room);
                     }
                 }
             }
@@ -103,11 +103,11 @@ namespace RogueProject.Controllers
         /// </summary>
         private void PlayerStairs()
         {
-            var playerCell = _world.GetPlayercell();
+            var playerCell = World.GetPlayercell();
 
             if (playerCell.TileType != TileType.Stairs) return;
 
-            _world.GenerateWorld(true);
+            World.GenerateWorld(true);
             Update();
         }
 
@@ -116,7 +116,7 @@ namespace RogueProject.Controllers
         /// </summary>
         private void PlayerDeath()
         {
-            var player = _world.Entities[0];
+            var player = World.Entities[0];
 
             if (player.Health <= 0)
             {

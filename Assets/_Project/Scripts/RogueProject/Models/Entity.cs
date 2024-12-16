@@ -8,6 +8,16 @@ namespace RogueProject.Models
 {
     public abstract class Entity : IRenderable
     {
+        [Serializable]
+        private class EntityStats
+        {
+            public int MaxHealth;
+            public int Strength;
+            public int Armor;
+            public string Character;
+            public int Color;
+        }
+
         public readonly string Name;
         public Vector2Int Position;
 
@@ -41,16 +51,16 @@ namespace RogueProject.Models
         {
             //var jsonString = File.ReadAllText($"Data/Entities/{Name}.json");
             var jsonString = Resources.Load<TextAsset>($"Data/Entities/{Name}").text;
-            var json = JsonUtility.FromJson<Dictionary<string, string>>(jsonString);
+            var json = JsonUtility.FromJson<EntityStats>(jsonString);
 
-            MaxHealth = json["MaxHealth"].ToInt();
+            MaxHealth = json.MaxHealth;
             Health = MaxHealth;
 
-            Strength = json["Strength"].ToInt();
-            Armor = json["Armor"].ToInt();
+            Strength = json.Strength;
+            Armor = json.Armor;
 
-            Character = json["Character"][0];
-            Color = (ConsoleColor)json["Color"].ToInt();
+            Character = json.Character[0];
+            Color = (ConsoleColor)json.Color;
         }
 
         public void ChangeHealth(int amount)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using RogueProject.Utils;
 using UnityEngine;
 using Vector2Int = RogueProject.Utils.Vector2Int;
@@ -7,6 +8,13 @@ namespace RogueProject.Models.Entities
 {
     public class Enemy : Entity
     {
+        [Serializable]
+        private class EnemyStats
+        {
+            public int Experience;
+            public int Gold;
+        }
+
         public Enemy(string name, Vector2Int position) : base(name, position) { }
 
         public int Experience { get; private set; }
@@ -31,10 +39,10 @@ namespace RogueProject.Models.Entities
 
             //var jsonString = File.ReadAllText($"Data/Entities/{Name}.json");
             var jsonString = Resources.Load<TextAsset>($"Data/Entities/{Name}").text;
-            var json = JsonUtility.FromJson<Dictionary<string, string>>(jsonString);
+            var json = JsonUtility.FromJson<EnemyStats>(jsonString);
 
-            Experience = json["Experience"].ToInt();
-            Gold = json["Gold"].ToInt();
+            Experience = json.Experience;
+            Gold = json.Gold;
         }
 
         public void ScaleStats(int floorNumber)

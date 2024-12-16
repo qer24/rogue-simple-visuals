@@ -7,8 +7,8 @@ namespace RogueProject
     {
         public static readonly Vector2Int WORLD_SIZE = new(80, 24);
 
-        public const ConsoleColor FOREGROUND_COLOR = ConsoleColor.White;
-        public const ConsoleColor BACKGROUND_COLOR = ConsoleColor.Black;
+        // public const ConsoleColor FOREGROUND_COLOR = ConsoleColor.White;
+        // public const ConsoleColor BACKGROUND_COLOR = ConsoleColor.Black;
 
         // World generation
         public const int MAX_GONE_ROOMS = 3;

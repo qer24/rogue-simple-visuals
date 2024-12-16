@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
-using RogueProject.Utils;
+using UnityEngine;
+using Vector2Int = RogueProject.Utils.Vector2Int;
 
 namespace RogueProject.Models
 {
@@ -14,12 +15,11 @@ namespace RogueProject.Models
         public static Item[] Items => _items ??= LoadItems();
 
         private static Item[] LoadItems()
-    {
-        var itemFiles = Directory.GetFiles("Data/Items");
+        {
+            var itemDataAssets = Resources.LoadAll<TextAsset>("Data/Items");
 
-        return itemFiles.Select(Path.GetFileNameWithoutExtension)
-                        .Select(fileName => new Item(fileName, Vector2Int.zero))
-                        .ToArray();
-    }
+            return itemDataAssets.Select(asset => new Item(asset.name, Vector2Int.zero))
+                                 .ToArray();
+        }
     }
 }

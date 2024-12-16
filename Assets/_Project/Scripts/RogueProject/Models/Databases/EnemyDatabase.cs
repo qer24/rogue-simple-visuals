@@ -2,7 +2,8 @@
 using System.IO;
 using System.Linq;
 using RogueProject.Models.Entities;
-using RogueProject.Utils;
+using UnityEngine;
+using Vector2Int = RogueProject.Utils.Vector2Int;
 
 namespace RogueProject.Models
 {
@@ -16,22 +17,13 @@ namespace RogueProject.Models
         public static Enemy[] Enemies => _enemies ??= LoadEnemies();
 
         private static Enemy[] LoadEnemies()
-    {
-        var enemyFiles = Directory.GetFiles("Data/Entities");
-
-        List<Enemy> list = new()
-            { };
-
-        foreach (string fileName in enemyFiles.Select(Path.GetFileNameWithoutExtension))
         {
-            if (fileName == "Player")
-            {
-                continue;
-            }
-            list.Add(new Enemy(fileName, Vector2Int.zero));
-        }
+            var enemyDataAssets = Resources.LoadAll<TextAsset>("Data/Entities");
 
-        return list.ToArray();
-    }
+            return enemyDataAssets
+                   .Where(asset => asset.name != "Player")
+                   .Select(asset => new Enemy(asset.name, Vector2Int.zero))
+                   .ToArray();
+        }
     }
 }
