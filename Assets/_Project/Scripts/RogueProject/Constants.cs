@@ -10,6 +10,8 @@ namespace RogueProject
         // public const ConsoleColor FOREGROUND_COLOR = ConsoleColor.White;
         // public const ConsoleColor BACKGROUND_COLOR = ConsoleColor.Black;
 
+        public static readonly float PLAYER_MOVE_DELAY = 0.1f;
+
         // World generation
         public const int MAX_GONE_ROOMS = 3;
         public const int RANDOM_CONNECTION_COUNT = 3;

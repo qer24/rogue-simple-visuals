@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public WorldController WorldController { get; private set; }
     public PlayerController PlayerController { get; private set; }
 
+    public event Action OnInitialize;
     public event Action OnUpdate;
 
     private void Init()
@@ -21,6 +22,8 @@ public class GameManager : MonoBehaviour
         PlayerController = new PlayerController(world, player);
 
         EndGame = false;
+
+        OnInitialize?.Invoke();
     }
 
     private void Start()

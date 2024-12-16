@@ -13,6 +13,8 @@ namespace RogueProject.Controllers
         private readonly World _world;
         private readonly Player _player;
 
+        private float _lastMoveTime;
+
         public event Action OnInput;
 
         public PlayerController(World world, Player player)
@@ -69,21 +71,25 @@ namespace RogueProject.Controllers
             // }
 
             // Arrow keys
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                _movementDirection = new Vector2Int(0, -1);
-            }
-            else if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                _movementDirection = new Vector2Int(-1, 0);
-            }
-            else if (Input.GetKeyDown(KeyCode.DownArrow))
+            if (Input.GetKey(KeyCode.UpArrow) && Time.time - _lastMoveTime > Constants.PLAYER_MOVE_DELAY)
             {
                 _movementDirection = new Vector2Int(0, 1);
+                _lastMoveTime = Time.time;
             }
-            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            else if (Input.GetKey(KeyCode.LeftArrow) && Time.time - _lastMoveTime > Constants.PLAYER_MOVE_DELAY)
+            {
+                _movementDirection = new Vector2Int(-1, 0);
+                _lastMoveTime = Time.time;
+            }
+            else if (Input.GetKey(KeyCode.DownArrow) && Time.time - _lastMoveTime > Constants.PLAYER_MOVE_DELAY)
+            {
+                _movementDirection = new Vector2Int(0, -1);
+                _lastMoveTime = Time.time;
+            }
+            else if (Input.GetKey(KeyCode.RightArrow) && Time.time - _lastMoveTime > Constants.PLAYER_MOVE_DELAY)
             {
                 _movementDirection = new Vector2Int(1, 0);
+                _lastMoveTime = Time.time;
             }
             // Escape
             else if (Input.GetKeyDown(KeyCode.Escape))

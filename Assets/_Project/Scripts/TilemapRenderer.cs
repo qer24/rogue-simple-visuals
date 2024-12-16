@@ -29,11 +29,11 @@ public class TilemapRenderer : GameBehaviour
 
                 var currentTile = Tilemap.GetTile(position);
 
-                // if (!cell.DoRender() && currentTile is not null)
-                // {
-                //     Tilemap.SetTile(position, null);
-                //     continue;
-                // }
+                if (!cell.DoRender())
+                {
+                    Tilemap.SetTile(position, null);
+                    continue;
+                }
 
                 var tileType = cell.TileType;
                 var tile = GetTile(tileType);
@@ -71,5 +71,14 @@ public class TilemapRenderer : GameBehaviour
             TileType.Stairs                                                  => StairsTile,
             _                                                                => null
         };
+    }
+
+    public Vector3 GetPosition(Vector2Int position)
+    {
+        var position3D = new Vector3Int(position.x, position.y, 0);
+        var worldPosition = Tilemap.GetCellCenterWorld(position3D);
+        worldPosition.z = 0;
+
+        return worldPosition;
     }
 }

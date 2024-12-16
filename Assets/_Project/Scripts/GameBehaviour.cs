@@ -14,8 +14,11 @@ public abstract class GameBehaviour : MonoBehaviour
 
     private void Awake()
     {
+        GameManager.OnInitialize += GameStart;
         GameManager.OnUpdate += GameUpdate;
     }
+
+    protected virtual void GameStart() { }
 
     protected abstract void GameUpdate();
 }
