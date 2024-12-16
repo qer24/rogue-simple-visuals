@@ -18,7 +18,7 @@ namespace RogueProject.Models
             // For floor to be visible, it must be revealed aswell as visible
             // For any other tile to be visible, it just must be revealed
 
-            return TileType == TileType.Floor ? Revealed && Visible : Revealed;
+            return Revealed;
         }
     }
 

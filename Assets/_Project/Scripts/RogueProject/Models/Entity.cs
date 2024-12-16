@@ -30,6 +30,8 @@ namespace RogueProject.Models
         public char Character { get; protected set; }
         public ConsoleColor Color { get; protected set; }
 
+        public event Action<Entity> OnDeath;
+
         public virtual bool IsVisible(World world)
         {
             var cell = world.GetCell(Position);
@@ -67,6 +69,12 @@ namespace RogueProject.Models
         {
             Health += amount;
             Health = Math.Clamp(Health, 0, MaxHealth);
+
+            if (Health <= 0)
+            {
+                OnDeath?.Invoke(this);
+                OnDeath = null;
+            }
         }
     }
 }

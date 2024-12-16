@@ -9,9 +9,10 @@ public class TilemapRenderer : GameBehaviour
     [SerializeField] private Tilemap Tilemap;
 
     [Space]
-    [SerializeField] private TileBase FloorTile;
+    [SerializeField] private TileBase FloorVisibleTile;
+    [SerializeField] private TileBase FloorRevealedTile;
     [SerializeField] private TileBase WallTile;
-    [SerializeField] private TileBase DoorTile;
+    [SerializeField] private TileBase DoorTile, DoorOpenTile;
     [SerializeField] private TileBase CorridorTile;
     [SerializeField] private TileBase StairsTile;
 
@@ -36,7 +37,7 @@ public class TilemapRenderer : GameBehaviour
                 }
 
                 var tileType = cell.TileType;
-                var tile = GetTile(tileType);
+                var tile = GetTile(tileType, new Vector2Int(x, y), tileType != TileType.Floor || cell.Visible);
 
                 // Only update the tile if it has changed
                 if (tile != currentTile)
@@ -47,7 +48,7 @@ public class TilemapRenderer : GameBehaviour
         }
     }
 
-    private TileBase GetTile(TileType tileType)
+    private TileBase GetTile(TileType tileType, Vector2Int pos, bool visible = true)
     {
         // return tileType switch
         // {
@@ -64,9 +65,9 @@ public class TilemapRenderer : GameBehaviour
 
         return tileType switch
         {
-            TileType.Floor                                                   => FloorTile,
+            TileType.Floor                                                   => visible ? FloorVisibleTile : FloorRevealedTile,
             TileType.WallTop or TileType.WallBottom or TileType.WallVertical => WallTile,
-            TileType.Door                                                    => DoorTile,
+            TileType.Door                                                    => World.Player.Position == pos ? DoorOpenTile : DoorTile,
             TileType.Corridor                                                => CorridorTile,
             TileType.Stairs                                                  => StairsTile,
             _                                                                => null

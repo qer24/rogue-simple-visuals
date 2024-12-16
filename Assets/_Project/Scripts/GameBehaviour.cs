@@ -16,9 +16,11 @@ public abstract class GameBehaviour : MonoBehaviour
     {
         GameManager.OnInitialize += GameStart;
         GameManager.OnUpdate += GameUpdate;
+        GameManager.OnRestart += GameRestart;
     }
 
     protected virtual void GameStart() { }
+    protected virtual void GameRestart() { }
 
     protected abstract void GameUpdate();
 }

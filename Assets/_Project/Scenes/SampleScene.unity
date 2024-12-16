@@ -600,7 +600,8 @@ MonoBehaviour:
   EntityRendererPrefab: {fileID: 4052524748104644177, guid: fa1d4f3b6ca5cd84eb3ac526bcfbdb36, type: 3}
   TilemapRenderer: {fileID: 1356182249}
   VirtualCamera: {fileID: 977661833}
-  PlayerMoveSpeed: 25
+  PlayerMoveSpeed: 15
+  PlayerMoveScale: 1.2
 --- !u!1 &1147219270
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,9 +772,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameManager: {fileID: 700303357}
   Tilemap: {fileID: 1147219273}
-  FloorTile: {fileID: 11400000, guid: c62772ea502acd440bf9fec4e6fa2b7e, type: 2}
+  FloorVisibleTile: {fileID: 11400000, guid: c62772ea502acd440bf9fec4e6fa2b7e, type: 2}
+  FloorRevealedTile: {fileID: 11400000, guid: 3afacfaf851bd704eb9b5665de86704b, type: 2}
   WallTile: {fileID: 11400000, guid: de3cb40ef88194b408529cdf76d20cb2, type: 2}
   DoorTile: {fileID: 11400000, guid: 36b28de4d8b7be44199c9c01f0714423, type: 2}
+  DoorOpenTile: {fileID: 11400000, guid: 6e9b5c6abad02374988f7a7659da3aa2, type: 2}
   CorridorTile: {fileID: 11400000, guid: 81c6a31f9822f1044944ff6a45258808, type: 2}
   StairsTile: {fileID: 11400000, guid: 2da21428a059309478e3e088ab7dc1ac, type: 2}
 --- !u!1660057539 &9223372036854775807

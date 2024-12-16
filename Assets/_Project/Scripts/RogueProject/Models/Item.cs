@@ -18,6 +18,8 @@ namespace RogueProject.Models
 
         private Action<Player>[] _effects;
 
+        public event Action<Item> OnPickup;
+
         [Serializable]
         public class ItemData
         {
@@ -109,6 +111,9 @@ namespace RogueProject.Models
             {
                 effect(player);
             }
+
+            OnPickup?.Invoke(this);
+            OnPickup = null;
         }
     }
 }

@@ -12,11 +12,20 @@ public class GameManager : MonoBehaviour
 
     public event Action OnInitialize;
     public event Action OnUpdate;
+    public event Action OnRestart;
 
     private void Init()
     {
         var world = new World();
         WorldController = new WorldController(world);
+
+        world.OnWorldGenerated += (regenerate) =>
+        {
+            if (regenerate)
+            {
+                OnRestart?.Invoke();
+            }
+        };
 
         var player = world.Entities[0] as Player;
         PlayerController = new PlayerController(world, player);

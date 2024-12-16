@@ -15,6 +15,8 @@ namespace RogueProject.Models
 
         public Player Player => (Player)Entities[0];
 
+        public event Action<bool> OnWorldGenerated;
+
         /// <summary>
         /// Procedurally generates the world, if regenerate is true, the player reference is kept.
         /// </summary>
@@ -22,6 +24,8 @@ namespace RogueProject.Models
         {
             var worldGenerator = new WorldGenerator(this);
             worldGenerator.GenerateWorld(regenerate);
+
+            OnWorldGenerated?.Invoke(regenerate);
         }
 
         /// <summary>
