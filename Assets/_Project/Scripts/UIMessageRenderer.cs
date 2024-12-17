@@ -26,6 +26,7 @@ public class UIMessageRenderer : MonoBehaviour
 
     private void OnMessageChanged(string message)
     {
+        _uiMessage.Priority = false;
         UIMessageText.text = message;
         UIMessageText.transform.localScale = Vector3.one * ScaleAmount;
         UIMessageCanvasGroup.alpha = 1f;

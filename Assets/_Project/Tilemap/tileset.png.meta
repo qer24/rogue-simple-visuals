@@ -800,6 +800,72 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: tileset_18
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9f08bb87c22a6e48bb6ca4d4eaa7048
+      internalID: -995712472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset_22
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 065e96947a4f6d74ba9e4da073482c7c
+      internalID: 778780359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset_30
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f49ff07e185084c47b67a2c2286f4a43
+      internalID: 884090315
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -828,10 +894,12 @@ TextureImporter:
       tileset_15: -734172124
       tileset_16: 874865408
       tileset_17: -468365137
+      tileset_18: -995712472
       tileset_19: -107703101
       tileset_2: 1174226788
       tileset_20: -1725625020
       tileset_21: -1540149504
+      tileset_22: 778780359
       tileset_23: -555938761
       tileset_24: -744957186
       tileset_25: 951013370
@@ -840,6 +908,7 @@ TextureImporter:
       tileset_28: -1418986685
       tileset_29: 1978101116
       tileset_3: -1910547234
+      tileset_30: 884090315
       tileset_4: -496906401
       tileset_5: 110044106
       tileset_6: 1755087639

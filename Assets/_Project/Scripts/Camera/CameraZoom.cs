@@ -12,6 +12,11 @@ public class CameraZoom : GameBehaviour
     private float? _zoomedOutSize;
     private float _zoomTimer;
 
+    protected override void GameRestart()
+    {
+        GameStart();
+    }
+
     protected override void GameStart()
     {
         _zoomedOutSize ??= VirtualCamera.Lens.OrthographicSize;

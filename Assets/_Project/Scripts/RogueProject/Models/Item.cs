@@ -72,7 +72,6 @@ namespace RogueProject.Models
             foreach (var key in effectsNode.Keys)
             {
                 var value = effectsNode[key];
-                Debug.Log($"Effect: {key} = {value}");
 
                 Action<Player> action = key switch
                 {
@@ -103,14 +102,10 @@ namespace RogueProject.Models
             Logger.Log(PickupMessage);
             Logger.Log($"Applying effects of {Name} to {player.Name}");
 
-            Debug.Log(player.Health);
-
             foreach (var effect in _effects)
             {
                 effect(player);
             }
-
-            Debug.Log(player.Health);
 
             OnPickup?.Invoke(this);
             OnPickup = null;
