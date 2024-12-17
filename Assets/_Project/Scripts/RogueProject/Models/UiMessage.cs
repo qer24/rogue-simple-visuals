@@ -37,6 +37,8 @@ namespace RogueProject.Models
             RemainingDuration = 0;
             Priority = false;
             MaxDuration = 0;
+
+            OnMessageChanged = null;
         }
     }
 }

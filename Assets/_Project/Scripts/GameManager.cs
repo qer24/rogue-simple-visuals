@@ -3,6 +3,7 @@ using RogueProject.Controllers;
 using RogueProject.Models;
 using RogueProject.Models.Entities;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -30,6 +31,9 @@ public class GameManager : MonoBehaviour
         var player = world.Entities[0] as Player;
         PlayerController = new PlayerController(world, player);
 
+        OutroUI.Level = 1;
+        OutroUI.Gold = 0;
+
         EndGame = false;
 
         OnInitialize?.Invoke();
@@ -50,7 +54,11 @@ public class GameManager : MonoBehaviour
 
             if (EndGame)
             {
-                Debug.Log("Game Over");
+                OutroUI.Level = WorldController.World.Player.Level;
+                OutroUI.Gold = WorldController.World.Player.Gold;
+
+                // Load next scene
+                SceneManager.LoadScene(2);
             }
             else
             {

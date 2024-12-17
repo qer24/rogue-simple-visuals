@@ -19,6 +19,7 @@ public class UIMessageRenderer : MonoBehaviour
     private void Awake()
     {
         _uiMessage = UiMessage.Instance;
+        _uiMessage.Reset();
         _uiMessage.OnMessageChanged += OnMessageChanged;
 
         UIMessageCanvasGroup.alpha = 0f;
