@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using RogueProject.Models.Entities;
+using RogueProject.Utils;
+using SimpleJSON;
 using UnityEngine;
 using Logger = RogueProject.Utils.Logger;
 using Vector2Int = RogueProject.Utils.Vector2Int;
@@ -19,22 +21,6 @@ namespace RogueProject.Models
         private Action<Player>[] _effects;
 
         public event Action<Item> OnPickup;
-
-        [Serializable]
-        public class ItemData
-        {
-            public string Character;
-            public string Color;
-            public string Message;
-            public List<EffectData> Effects;
-        }
-
-        [Serializable]
-        public class EffectData
-        {
-            public string Key;
-            public int Value;
-        }
 
         public Item(string name, Vector2Int position)
         {
@@ -60,33 +46,41 @@ namespace RogueProject.Models
         /// </summary>
         private void LoadStats()
         {
-            //var jsonString = File.ReadAllText($"Data/Items/{Name}.json");
+            // Load JSON text
             var jsonString = Resources.Load<TextAsset>($"Data/Items/{Name}").text;
-            var itemData = JsonUtility.FromJson<ItemData>(jsonString);
 
-            Character = itemData.Character[0];
-            Color = (ConsoleColor)int.Parse(itemData.Color);
+            // Parse JSON using SimpleJSON
+            var json = JSON.Parse(jsonString);
 
-            PickupMessage = itemData.Message;
+            // Main properties
+            Character = json["Character"].Value[0];
+            Color = (ConsoleColor)int.Parse(json["Color"]);
+            PickupMessage = json["Message"];
 
+            // Parse Effects manually
+            var effectsNode = json["Effects"];
             _effects = Array.Empty<Action<Player>>();
 
-            if (itemData.Effects == null)
+            if (effectsNode == null)
             {
+                Logger.Log("No effects found.");
                 return;
             }
 
             var effectsList = new List<Action<Player>>();
 
-            foreach (var effect in itemData.Effects)
+            foreach (var key in effectsNode.Keys)
             {
-                Action<Player> action = effect.Key switch
+                var value = effectsNode[key];
+                Debug.Log($"Effect: {key} = {value}");
+
+                Action<Player> action = key switch
                 {
-                    "Health"     => player => player.ChangeHealth(effect.Value),
-                    "Strength"   => player => player.Strength += effect.Value,
-                    "Armor"      => player => player.Armor += effect.Value,
-                    "Gold"       => player => player.Gold += effect.Value,
-                    "Experience" => player => player.AddExperience(effect.Value),
+                    "Health"     => player => player.ChangeHealth(value.AsInt),
+                    "Strength"   => player => player.Strength += value.AsInt,
+                    "Armor"      => player => player.Armor += value.AsInt,
+                    "Gold"       => player => player.Gold += value.AsInt,
+                    "Experience" => player => player.AddExperience(value.AsInt),
                     _            => null
                 };
 
@@ -96,21 +90,27 @@ namespace RogueProject.Models
                 }
                 else
                 {
-                    Logger.Log($"Warning: Unknown effect type '{effect.Key}' in item {Name}");
+                    Logger.Log($"Warning: Unknown effect type '{key}' in item {Name}");
                 }
             }
 
             _effects = effectsList.ToArray();
         }
 
+
         public void ApplyEffect(Player player)
         {
             Logger.Log(PickupMessage);
             Logger.Log($"Applying effects of {Name} to {player.Name}");
+
+            Debug.Log(player.Health);
+
             foreach (var effect in _effects)
             {
                 effect(player);
             }
+
+            Debug.Log(player.Health);
 
             OnPickup?.Invoke(this);
             OnPickup = null;

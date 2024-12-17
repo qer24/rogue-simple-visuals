@@ -41,7 +41,7 @@ public class UIMessageRenderer : MonoBehaviour
         var t = _uiMessage.RemainingDuration / _uiMessage.MaxDuration;
         UIMessageCanvasGroup.alpha = Mathf.Lerp(0f, 1f, FadeEaseType.Ease(t));
 
-        var scaleT = 1 - _uiMessage.RemainingDuration / _uiMessage.MaxDuration;
+        var scaleT = Mathf.Clamp01((_uiMessage.MaxDuration - _uiMessage.RemainingDuration) / ScaleDuration);
         UIMessageText.transform.localScale = Vector3.one * Mathf.Lerp(ScaleAmount, 1f, ScaleEaseType.Ease(scaleT));
 
         _uiMessage.RemainingDuration -= Time.deltaTime;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using RogueProject.Models;
+using RogueProject.Models.Entities;
 using UnityEngine;
 
 public abstract class GameBehaviour : MonoBehaviour
@@ -11,6 +12,8 @@ public abstract class GameBehaviour : MonoBehaviour
     protected WorldCell[,] WorldGrid => World.WorldGrid;
     protected List<Entity> Entities => World.Entities;
     protected List<Item> Items => World.Items;
+
+    protected Player Player => World.Player;
 
     private void Awake()
     {
