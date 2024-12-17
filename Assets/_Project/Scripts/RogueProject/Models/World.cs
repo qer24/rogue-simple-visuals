@@ -262,7 +262,7 @@ namespace RogueProject.Models
 
             void KillEntity(Entity entity, int damage)
             {
-                UiMessage.Instance.ShowMessage($"      {entity.Name} -{damage} HP, {entity.Name} has been defeated", 5);
+                UiMessage.Instance.ShowMessage($"{entity.Name} -{damage} HP, {entity.Name} has been defeated", 5);
 
                 if (entity is Enemy enemy)
                 {
@@ -282,7 +282,7 @@ namespace RogueProject.Models
             }
             else
             {
-                UiMessage.Instance.ShowMessage($"      {target.Name} -{attackDamage} HP, {attacker.Name} -{defenceDamage} HP", 5);
+                UiMessage.Instance.ShowMessage($"{target.Name} -{attackDamage} HP, {attacker.Name} -{defenceDamage} HP", 5);
             }
         }
 

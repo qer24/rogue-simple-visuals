@@ -43,7 +43,7 @@ namespace RogueProject.Models.Entities
             Armor += 1;
 
             Logger.Log($"{Name} has leveled up! New stats: Health: {MaxHealth}, Strength: {Strength}, Armour: {Armor}");
-            UiMessage.Instance.ShowMessage("                Level up!", 5, true);
+            UiMessage.Instance.ShowMessage("Level up!", 5, true);
         }
     }
 }

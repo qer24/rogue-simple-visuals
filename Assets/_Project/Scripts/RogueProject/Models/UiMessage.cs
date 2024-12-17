@@ -1,4 +1,5 @@
-﻿using RogueProject.Utils;
+﻿using System;
+using RogueProject.Utils;
 
 namespace RogueProject.Models
 {
@@ -6,11 +7,13 @@ namespace RogueProject.Models
     public class UiMessage : Singleton<UiMessage>
     {
         public string Message = "";
-        public int RemainingDuration = 0;
+        public float RemainingDuration = 0;
         public bool Priority = false;
-        public int MaxDuration = 0;
+        public float MaxDuration = 0;
 
-        public void ShowMessage(string message, int duration, bool priority = false)
+        public event Action<string> OnMessageChanged;
+
+        public void ShowMessage(string message, float duration, bool priority = false)
         {
             if (priority)
             {
@@ -21,14 +24,16 @@ namespace RogueProject.Models
                 return;
             }
 
-            Message = message + new string(' ', 50);
+            Message = message;
             RemainingDuration = duration;
             MaxDuration = duration;
+
+            OnMessageChanged?.Invoke(Message);
         }
 
         public void Reset()
         {
-            Message = new string(' ', 100);
+            Message = "";
             RemainingDuration = 0;
             Priority = false;
             MaxDuration = 0;
